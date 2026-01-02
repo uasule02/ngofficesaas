@@ -1,17 +1,18 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Always use the API key directly from process.env.API_KEY
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export const getDashboardInsights = async (context: string) => {
   try {
-    // Calling generateContent directly with the model and contents as per guidelines
+    // Initialize inside the call to ensure the latest API key is used
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    
+    // Using 'gemini-3-flash-preview' for basic text summarization/analysis
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `You are a SaaS Business Analyst. Based on this data: ${context}, provide 3 concise, actionable strategic insights for the dashboard owner. Keep it professional and brief.`,
     });
-    // Accessing .text as a property, not a method
+
+    // Access .text property directly as per latest SDK guidelines
     return response.text;
   } catch (error) {
     console.error("Gemini Insights Error:", error);

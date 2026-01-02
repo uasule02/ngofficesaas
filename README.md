@@ -30,7 +30,7 @@ This repository is specifically architected to interface with the [Project Monit
 3. **Configure Environment:**
    Create a `.env` file in the root directory and add your Google Gemini API Key:
    ```env
-   API_KEY=your_gemini_api_key_here
+   VITE_API_KEY=your_gemini_api_key_here
    ```
 
 ### Running the Project
@@ -39,6 +39,21 @@ To start the development server with Hot Module Replacement (HMR):
 npm run dev
 ```
 The application will be available at `http://localhost:5173`.
+
+---
+
+## 💡 Troubleshooting
+
+### `npm ERR! code ENOENT` during install
+If you see an error regarding `_cacache` or `stat` failure during `npm install`, your local npm cache is likely corrupted. Fix it with:
+```bash
+npm cache clean --force
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Environment Variables
+The project uses Gemini AI. Ensure your key is valid and configured in your `.env` file. If using Vite, the key should be prefixed as `VITE_API_KEY` or handled via your build provider's secret management.
 
 ---
 

@@ -1,0 +1,22 @@
+
+{
+  "name": "ngofficeplatform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend for NGOFFICE Multi-tenant SaaS Platform",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.0.0",
+    "lucide-react": "^0.468.0",
+    "recharts": "^2.15.0",
+    "@google/genai": "^1.30.0"
+  },
+  "keywords": [
+    "saas",
+    "multi-tenant",
+    "governance",
+    "react",
+    "tailwind"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "name": "NGOFFICE SaaS Platform",
+  "description": "A robust, multi-tenant SaaS frontend for managing organizations, HR, and finance modules, featuring a platform admin dashboard and tenant-specific management tools.",
+  "requestFramePermissions": []
+}

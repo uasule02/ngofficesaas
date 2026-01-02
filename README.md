@@ -1,11 +1,25 @@
-<div align="center">
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# NGOFFICE SaaS Platform
 
-  <h1>Built with AI Studio</h2>
+## Overview
+NGOFFICE is a high-performance, multi-tenant SaaS frontend built for modular organizational management. It provides a robust **Platform Control Center** for global administrators and a tailored **Tenant Workspace** for individual organizations.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+This repository is designed to interface with the [Project Monitoring SaaS Backend](https://github.com/Rahza-Technology-Limited/project_monitoring_saas.git).
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Architecture
+- **Frontend**: React 19 (ESM based)
+- **UI/UX**: Tailwind CSS with a "High-Fidelity" design language.
+- **State Management**: React Hooks + Contextual URL routing.
+- **Intelligence**: Integrated Gemini-3-Flash for automated business insights and governance auditing.
+- **Multitenancy**: Dynamic module provisioning system with daily prorated billing logic.
 
-</div>
+## Project Structure
+- `/views/PlatformAdmin`: Global governance, tenant lifecycle, and module marketplace management.
+- `/views/Tenant`: Staff management, finance tracking, and module subscription interface.
+- `/services`: Gemini AI integration and Mock/Live API connectors.
+
+## Deployment & Integration
+The frontend is built to be stateless, relying on the `API_KEY` environment variable for AI features and the `backendService.ts` for organizational data. To connect your live backend, update the `BASE_URL` in `services/backendService.ts`.
+
+---
+*Maintained by Rahza Technology Limited.*

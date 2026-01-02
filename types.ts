@@ -13,6 +13,30 @@ export interface Review {
   date: string;
 }
 
+export interface Branch {
+  id: string;
+  name: string;
+  location: string;
+  staffCount: number;
+  isHeadquarters: boolean;
+}
+
+export interface Division {
+  id: string;
+  name: string;
+  headId?: string;
+  officeLocation?: string;
+}
+
+export interface Department {
+  id: string;
+  name: string;
+  headId?: string;
+  description: string;
+  divisions: Division[];
+  iconName: string; // Key for icon mapping
+}
+
 export interface Module {
   id: string;
   name: string;
@@ -37,6 +61,7 @@ export interface Tenant {
   status: TenantStatus;
   createdAt: string;
   modules: string[]; // IDs of enabled modules
+  branches?: Branch[];
 }
 
 export interface User {
@@ -50,7 +75,12 @@ export interface User {
 export interface Staff {
   id: string;
   name: string;
-  department: string;
+  departmentId: string;
+  divisionId?: string;
   role: string;
   email: string;
+  branchId: string;
+  status: string;
+  performance: number;
+  joiningDate: string;
 }

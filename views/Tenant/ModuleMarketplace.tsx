@@ -16,7 +16,14 @@ import {
   Zap,
   Check,
   MessageSquare,
-  ChevronRight
+  ChevronRight,
+  TrendingUp,
+  Package,
+  Truck,
+  FileText,
+  Activity,
+  Cpu,
+  Workflow
 } from 'lucide-react';
 import { Module, Review } from '../../types';
 
@@ -52,8 +59,7 @@ const INITIAL_MODULES: Module[] = [
     subscriberCount: 840,
     rating: 4.7,
     reviews: [
-      { id: '2', author: 'Mike Ross', rating: 4, comment: 'Great onboarding tools, saved us tons of time.', date: '2024-02-15' },
-      { id: '3', author: 'Rachel Zane', rating: 5, comment: 'The ATS integration is a game changer.', date: '2024-02-20' }
+      { id: '2', author: 'Mike Ross', rating: 4, comment: 'Great onboarding tools, saved us tons of time.', date: '2024-02-15' }
     ]
   },
   {
@@ -72,6 +78,66 @@ const INITIAL_MODULES: Module[] = [
     reviews: [
       { id: '4', author: 'Harvey Specter', rating: 5, comment: 'The forecasting is surprisingly accurate.', date: '2024-01-10' }
     ]
+  },
+  {
+    id: 'project',
+    name: 'Project Monitoring',
+    description: 'Track KPIs, milestones, and real-time project health across your organization.',
+    longDescription: 'Directly integrated with the NGOFFICE project monitoring logic, this module allows project managers to define multi-level objectives, monitor field progress, and generate automated stakeholder reports.',
+    features: ['KPI Tracking & Visualization', 'Gantt Chart Integration', 'Milestone Dependencies', 'Field Data Collection Sync'],
+    icon: Activity,
+    status: 'Disabled',
+    isRequired: false,
+    category: 'Strategy',
+    price: 59,
+    subscriberCount: 412,
+    rating: 4.8,
+    reviews: []
+  },
+  {
+    id: 'inventory',
+    name: 'Inventory & Supply',
+    description: 'Warehouse management, stock tracking, and automated procurement alerts.',
+    longDescription: 'Full control over your physical assets and consumable stocks. Monitor movement across regional branches, set low-stock triggers, and manage supply chain logistics with ease.',
+    features: ['Multi-warehouse Sync', 'Batch & Serial Tracking', 'Low-stock Alerts', 'Transfer Reconciliation'],
+    icon: Package,
+    status: 'Disabled',
+    isRequired: false,
+    category: 'Logistics',
+    price: 45,
+    subscriberCount: 215,
+    rating: 4.4,
+    reviews: []
+  },
+  {
+    id: 'payroll',
+    name: 'Payroll Engine',
+    description: 'Automated salary calculations, tax filings, and benefit disbursements.',
+    longDescription: 'Remove the complexity from compensation. The Payroll Engine handles tax laws, benefit deductions, and direct deposit integration, ensuring your workforce is paid accurately and on time.',
+    features: ['Automated Tax Filings', 'Direct Deposit API', 'Benefit Plan Management', 'Payslip Self-service Portal'],
+    icon: FileText,
+    status: 'Disabled',
+    isRequired: false,
+    category: 'Finance',
+    price: 39,
+    subscriberCount: 560,
+    rating: 4.6,
+    reviews: []
+  },
+  {
+    id: 'procurement',
+    name: 'Procurement Hub',
+    description: 'Manage vendor relationships, purchase orders, and tender workflows.',
+    longDescription: 'Streamline how your organization acquires goods and services. Manage your vendor database, track purchase orders from request to fulfillment, and run competitive tender processes.',
+    features: ['Vendor Scorecarding', 'PO Approval Workflows', 'Electronic Tendering', 'Budget Commitments Tracking'],
+    icon: Truck,
+    status: 'Disabled',
+    isRequired: false,
+    category: 'Operations',
+    price: 55,
+    subscriberCount: 188,
+    rating: 4.2,
+    reviews: []
   },
   {
     id: 'crm',
@@ -116,7 +182,7 @@ const ModuleMarketplace: React.FC = () => {
   [modules, selectedModuleId]);
 
   const relatedModules = useMemo(() => 
-    modules.filter(m => m.id !== selectedModuleId).slice(0, 2),
+    modules.filter(m => m.id !== selectedModuleId).slice(0, 3),
   [modules, selectedModuleId]);
 
   const enabledModulesCount = useMemo(() => 
@@ -345,31 +411,31 @@ const ModuleMarketplace: React.FC = () => {
       </div>
 
       {/* Modules Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {modules.map((module) => (
           <div 
             key={module.id} 
             onClick={() => setSelectedModuleId(module.id)}
-            className={`group relative bg-white p-10 rounded-[3rem] border-2 transition-all duration-500 h-full flex flex-col cursor-pointer ${
+            className={`group relative bg-white p-8 rounded-[3rem] border-2 transition-all duration-500 h-full flex flex-col cursor-pointer ${
             module.status === 'Enabled' 
               ? 'border-indigo-600 shadow-[0_32px_64px_-12px_rgba(79,70,229,0.12)]' 
               : 'border-slate-100 hover:border-slate-300 hover:shadow-2xl'
           }`}>
             <div className="flex items-start justify-between mb-8">
-              <div className={`p-5 rounded-[1.8rem] transition-all duration-500 shadow-sm ${
+              <div className={`p-4 rounded-[1.5rem] transition-all duration-500 shadow-sm ${
                 module.status === 'Enabled' ? 'bg-indigo-600 text-white rotate-2 scale-105' : 'bg-slate-50 text-slate-400'
               }`}>
-                <module.icon size={36} />
+                <module.icon size={28} />
               </div>
               <div className="flex flex-col items-end">
-                <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-3 shadow-sm ${
+                <span className={`text-[9px] font-black uppercase tracking-[0.2em] px-2.5 py-1 rounded-full mb-3 shadow-sm ${
                   module.isRequired ? 'bg-slate-900 text-white' : 'bg-white text-slate-500 border border-slate-100'
                 }`}>
                   {module.category}
                 </span>
                 <div className="text-right">
-                  <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Base Rate</p>
-                  <p className={`text-2xl font-black ${module.price === 0 ? 'text-slate-400' : 'text-slate-800'}`}>
+                  <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Base Rate</p>
+                  <p className={`text-xl font-black ${module.price === 0 ? 'text-slate-400' : 'text-slate-800'}`}>
                     {module.price === 0 ? 'INCLUDED' : `$${module.price}`}
                     {module.price > 0 && <span className="text-xs text-slate-300 ml-1">/mo</span>}
                   </p>
@@ -377,16 +443,16 @@ const ModuleMarketplace: React.FC = () => {
               </div>
             </div>
 
-            <h3 className="text-2xl font-black text-slate-800 mb-4 group-hover:text-indigo-600 transition-colors">{module.name}</h3>
-            <p className="text-slate-500 text-sm leading-relaxed mb-10 line-clamp-2">
+            <h3 className="text-xl font-black text-slate-800 mb-3 group-hover:text-indigo-600 transition-colors">{module.name}</h3>
+            <p className="text-slate-500 text-xs leading-relaxed mb-8 line-clamp-2">
               {module.description}
             </p>
 
-            <div className="flex items-center gap-4 mt-auto">
+            <div className="flex items-center gap-3 mt-auto">
               <button 
                 disabled={module.isRequired || processingId === module.id}
                 onClick={(e) => toggleModule(module.id, e)}
-                className={`flex-1 flex items-center justify-center gap-2 py-4 px-8 rounded-2xl font-black text-xs tracking-widest transition-all ${
+                className={`flex-1 flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl font-black text-[10px] tracking-widest transition-all ${
                   module.isRequired 
                     ? 'bg-slate-50 text-slate-300 cursor-not-allowed border border-slate-100'
                     : module.status === 'Enabled'
@@ -395,48 +461,31 @@ const ModuleMarketplace: React.FC = () => {
                 }`}
               >
                 {processingId === module.id ? (
-                  <Loader2 size={18} className="animate-spin" />
+                  <Loader2 size={16} className="animate-spin" />
                 ) : (
                   <>
                     {module.status === 'Enabled' 
-                      ? (module.isRequired ? 'SYSTEM CORE' : 'CANCEL SUBSCRIPTION') 
-                      : 'SUBSCRIBE NOW'
+                      ? (module.isRequired ? 'CORE' : 'CANCEL') 
+                      : 'SUBSCRIBE'
                     }
                   </>
                 )}
               </button>
               
               {module.status === 'Enabled' && (
-                <button className="p-4 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-2xl border border-slate-100 transition-all active:scale-90">
-                  <Settings size={20} />
+                <button className="p-3 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-2xl border border-slate-100 transition-all active:scale-90">
+                  <Settings size={18} />
                 </button>
               )}
             </div>
             
             {module.status === 'Enabled' && (
-              <div className="absolute -top-4 -right-4 bg-indigo-600 text-white p-2 rounded-full border-[6px] border-slate-50 shadow-lg animate-in zoom-in-50 duration-300">
-                <CheckCircle size={24} />
+              <div className="absolute -top-3 -right-3 bg-indigo-600 text-white p-1.5 rounded-full border-[4px] border-slate-50 shadow-lg animate-in zoom-in-50 duration-300">
+                <CheckCircle size={18} />
               </div>
             )}
           </div>
         ))}
-      </div>
-
-      {/* Footer / Summary Action */}
-      <div className="bg-slate-900 rounded-[3rem] p-12 flex flex-col lg:flex-row items-center gap-10 text-white relative overflow-hidden shadow-2xl">
-         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent pointer-events-none" />
-         <div className="p-8 bg-white/5 rounded-[2rem] border border-white/10 relative z-10 shadow-inner">
-            <CreditCard size={64} className="text-indigo-400" />
-         </div>
-         <div className="flex-1 text-center lg:text-left relative z-10">
-            <h4 className="text-3xl font-black mb-3 tracking-tight">Enterprise Scaling</h4>
-            <p className="text-indigo-100/60 text-base max-w-lg leading-relaxed font-medium">NGOFFICE is built on a high-availability infrastructure. New modules are provisioned instantly across your global workforce nodes. Need custom pricing? Contact our accounts team.</p>
-         </div>
-         <div className="flex flex-col sm:flex-row gap-4 relative z-10 w-full lg:w-auto">
-           <button className="bg-white text-slate-900 hover:bg-indigo-50 px-10 py-5 rounded-[1.5rem] font-black whitespace-nowrap transition-all shadow-xl hover:-translate-y-1 active:translate-y-0">
-              Review Subscription
-           </button>
-         </div>
       </div>
     </div>
   );

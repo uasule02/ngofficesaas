@@ -8,6 +8,8 @@ import TenantDashboard from './views/Tenant/TenantDashboard';
 import ModuleMarketplace from './views/Tenant/ModuleMarketplace';
 import StaffManagement from './views/Tenant/StaffManagement';
 import OrgStructure from './views/Tenant/OrgStructure';
+import Login from './views/Auth/Login';
+import Register from './views/Auth/Register';
 import { User, Branch } from './types';
 
 // Mock Data
@@ -25,36 +27,67 @@ const MOCK_BRANCHES: Branch[] = [
 ];
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<User>(MOCK_PLATFORM_USER);
+  const [user, setUser] = useState<User | null>(null); // Start unauthenticated
   const [currentBranch, setCurrentBranch] = useState<Branch>(MOCK_BRANCHES[0]);
+
+  // Handle Login
+  const handleLogin = (role: 'PLATFORM_ADMIN' | 'TENANT_ADMIN' = 'TENANT_ADMIN') => {
+    if (role === 'PLATFORM_ADMIN') {
+      setUser(MOCK_PLATFORM_USER);
+    } else {
+      setUser({
+        id: '2',
+        name: 'Sarah Miller',
+        email: 'sarah@acme-corp.com',
+        role: 'TENANT_ADMIN',
+        tenantId: 'tenant-1'
+      });
+    }
+  };
 
   return (
     <HashRouter>
-      <AppLayout 
-        user={user} 
-        setUser={setUser} 
-        currentBranch={currentBranch} 
-        setCurrentBranch={setCurrentBranch}
-        availableBranches={MOCK_BRANCHES}
-      >
-        <Routes>
-          {user.role === 'PLATFORM_ADMIN' ? (
-            <>
-              <Route path="/" element={<AdminDashboard />} />
-              <Route path="/deployments" element={<DeploymentControl />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          ) : (
-            <>
-              <Route path="/" element={<TenantDashboard />} />
-              <Route path="/staff" element={<StaffManagement />} />
-              <Route path="/org-structure" element={<OrgStructure />} />
-              <Route path="/marketplace" element={<ModuleMarketplace />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          )}
-        </Routes>
-      </AppLayout>
+      <Routes>
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected App Routes */}
+        {user ? (
+          <Route 
+            path="/*" 
+            element={
+              <AppLayout 
+                user={user} 
+                setUser={(u: any) => setUser(u)} 
+                currentBranch={currentBranch} 
+                setCurrentBranch={setCurrentBranch}
+                availableBranches={MOCK_BRANCHES}
+              >
+                <Routes>
+                  {user.role === 'PLATFORM_ADMIN' ? (
+                    <>
+                      <Route path="/" element={<AdminDashboard />} />
+                      <Route path="/deployments" element={<DeploymentControl />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </>
+                  ) : (
+                    <>
+                      <Route path="/" element={<TenantDashboard />} />
+                      <Route path="/staff" element={<StaffManagement />} />
+                      <Route path="/org-structure" element={<OrgStructure />} />
+                      <Route path="/marketplace" element={<ModuleMarketplace />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </>
+                  )}
+                </Routes>
+              </AppLayout>
+            }
+          />
+        ) : (
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        )}
+      </Routes>
     </HashRouter>
   );
 };

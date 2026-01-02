@@ -11,7 +11,7 @@ export default defineConfig({
     'process.env.API_KEY': JSON.stringify(process.env.VITE_API_KEY || process.env.API_KEY || "")
   },
   server: {
-    port: 5173,
+    port: 5176,
     strictPort: true,
   },
 });
